@@ -1,0 +1,12 @@
+{
+  "actor": {
+    "tenant_id": "tenant-a",
+    "principal_id": "agent:researcher",
+    "kind": "agent",
+    "roles": [
+      "knowledge_reader"
+    ]
+  },
+  "query": "What approval is required to delete production database?",
+  "top_k": 5
+}

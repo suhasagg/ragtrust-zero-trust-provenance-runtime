@@ -1,0 +1,14 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: ragtrust, namespace: ragtrust}
+spec:
+ replicas: 3
+ selector: {matchLabels: {app: ragtrust}}
+ template:
+  metadata: {labels: {app: ragtrust}}
+  spec:
+   containers:
+   - name: api
+     image: ragtrust:latest
+     ports: [{containerPort: 8000}]
+     securityContext: {runAsNonRoot: true, allowPrivilegeEscalation: false, readOnlyRootFilesystem: true}

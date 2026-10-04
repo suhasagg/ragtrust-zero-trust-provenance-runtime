@@ -1,0 +1,48 @@
+{
+  "actor": {
+    "tenant_id": "tenant-a",
+    "principal_id": "service:ingester",
+    "kind": "service",
+    "roles": [
+      "admin"
+    ]
+  },
+  "passport": {
+    "object_id": "chunk:policy:001",
+    "object_type": "chunk",
+    "content": "Production database deletion requires two-person approval.",
+    "source": {
+      "document": "prod-policy.md",
+      "repository": "security-policies",
+      "author": "security-team",
+      "organization": "ExampleCorp",
+      "uri": "repo://security/prod-policy.md"
+    },
+    "provenance": {
+      "created_at": "2026-10-01T10:00:00Z",
+      "ingested_at": "2026-10-04T10:00:00Z",
+      "ingestion_pipeline": "ragtrust-v1",
+      "transformations": [
+        "markdown->chunk"
+      ],
+      "parent_chunks": []
+    },
+    "security": {
+      "trust_score": 0.95,
+      "poison_score": 0.0,
+      "contradiction_score": 0.0,
+      "source_reputation": 0.95,
+      "corroboration": 0.9
+    },
+    "authorization": {
+      "tenant": "tenant-a",
+      "classification": "INTERNAL",
+      "allowed_principals": [
+        "agent:researcher"
+      ]
+    },
+    "metadata": {
+      "claim_id": "claim:prod-delete-approval"
+    }
+  }
+}
