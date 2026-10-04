@@ -2446,3 +2446,514 @@ ASK:
 ```
 
 That is the zero-trust knowledge model RAGTrust is designed to demonstrate.
+
+## Research Foundations & Citations
+
+RAGTrust is an **independent engineering and research reference implementation**. Its architecture is motivated by recent work on RAG knowledge poisoning, provenance verification, robust retrieval, GraphRAG integrity, zero-trust architecture, and software-supply-chain provenance.
+
+RAGTrust does **not** reproduce the implementation of any cited research project. Instead, it combines several emerging ideas into a unified production-oriented architecture:
+
+```text
+Knowledge Identity
+        +
+Cryptographic Integrity
+        +
+Provenance Lineage
+        +
+Retrieval Authorization
+        +
+Trust-Aware Ranking
+        +
+Poison-Risk Detection
+        +
+Evidence Corroboration
+        +
+Robust Aggregation
+        +
+GraphRAG Integrity
+        +
+Context Admission
+        +
+Knowledge Ledger
+```
+
+---
+
+### [1] ToxicRAG — Single-Shot Knowledge Poisoning
+
+**Haozhe Lu, Jiaqi Li, Xinyuan Zhu, Xiang Li.**  
+*ToxicRAG: Compromising Retrieval-Augmented Generation Systems via Single-Shot Knowledge Poisoning Attacks.*  
+arXiv:2609.11082, 2026.
+
+ToxicRAG demonstrates that RAG poisoning does not necessarily require a large collection of obviously malicious documents. The work studies a **one-document-per-target** poisoning strategy in which misinformation is presented as a plausible knowledge update.
+
+The paper reports attack-success rates between **0.61 and 0.91** across its twelve evaluated dataset/model combinations.
+
+#### RAGTrust relevance
+
+This motivates moving beyond:
+
+```text
+query
+   ↓
+semantic similarity
+   ↓
+top-k
+```
+
+toward:
+
+```text
+query
+   ↓
+semantic candidates
+   ↓
+source identity
+   ↓
+provenance
+   ↓
+integrity
+   ↓
+corroboration
+   ↓
+poison risk
+   ↓
+SecureRank
+```
+
+RAGTrust therefore treats **semantic relevance as insufficient evidence of trustworthiness**.
+
+---
+
+### [2] RAGShield — Provenance-Verified RAG Defense
+
+**KrishnaSaiReddy Patil.**  
+*RAGShield: Provenance-Verified Defense-in-Depth Against Knowledge Base Poisoning in Government Retrieval-Augmented Generation Systems.*  
+arXiv:2604.00387, 2026.
+
+RAGShield explicitly observes that knowledge-base poisoning has structural similarities to **software supply-chain attacks** and proposes provenance-oriented defenses including document attestation, trust-weighted retrieval, taint tracking, contradiction detection, and auditable citations.
+
+#### RAGTrust relevance
+
+This research strongly motivates RAGTrust's knowledge-supply-chain model:
+
+```text
+Software Supply Chain
+
+Source
+  ↓
+Build
+  ↓
+Artifact
+  ↓
+Signature
+  ↓
+Verification
+  ↓
+Deployment
+
+
+RAGTrust Knowledge Supply Chain
+
+Source
+  ↓
+Ingestion
+  ↓
+Transformation
+  ↓
+Chunk / Node / Edge
+  ↓
+Knowledge Passport
+  ↓
+Verification
+  ↓
+Retrieval
+```
+
+RAGTrust extends this architectural direction with:
+
+```text
+Knowledge Passport
+Knowledge Ledger
+Knowledge Integrity Graph
+SecureRank
+Source-independent corroboration
+GraphRAG integrity monitoring
+Retrieval authorization
+Context Firewall
+```
+
+---
+
+### [3] HoG-GRAG — GraphRAG Knowledge-Poisoning Defense
+
+**Havva Alizadeh Noughabi, Fattane Zarrinkalam, Ali Dehghantanha.**  
+*Defense Against Knowledge Poisoning Attack on GraphRAG.*  
+Proceedings of ACL 2026, Volume 2: Short Papers, pp. 555–563.
+
+HoG-GRAG studies the additional poisoning surface created by GraphRAG, where malicious knowledge can introduce spurious entities and relationships into a knowledge graph.
+
+The proposed defense monitors multi-hop retrieval for poisoning-induced inconsistencies and performs **local repair of the retrieved subgraph**.
+
+#### RAGTrust relevance
+
+This motivates RAGTrust's:
+
+```text
+Graph Integrity Monitor
+        │
+        ├── suspicious nodes
+        ├── suspicious edges
+        ├── dangling edges
+        ├── low-trust edges
+        ├── temporal anomalies
+        ├── relationship anomalies
+        └── multi-hop inconsistencies
+                    ↓
+             Local Graph Repair
+```
+
+Every RAGTrust graph node and edge can additionally carry its own Knowledge Passport.
+
+---
+
+### [4] PoisonedRAG — Knowledge Corruption Attacks
+
+**Wei Zou, Runpeng Geng, Binghui Wang, Jinyuan Jia.**  
+*PoisonedRAG: Knowledge Corruption Attacks to Retrieval-Augmented Generation of Large Language Models.*  
+34th USENIX Security Symposium, 2025, pp. 3827–3844.
+
+PoisonedRAG established knowledge-base corruption as a significant RAG attack surface and demonstrated that attackers can manipulate external retrieval knowledge to influence generated answers.
+
+#### RAGTrust relevance
+
+RAGTrust treats the external corpus as a security boundary:
+
+```text
+External Knowledge
+       │
+       ▼
+NOT automatically trusted
+       │
+       ▼
+Identity
+Integrity
+Provenance
+Authorization
+Poison Analysis
+Corroboration
+       │
+       ▼
+Context Admission
+```
+
+---
+
+### [5] Zero Trust Architecture
+
+**NIST Special Publication 800-207.**  
+*Zero Trust Architecture.*
+
+Zero Trust replaces implicit trust based on network or system location with explicit identity, policy, and resource-level authorization.
+
+#### RAGTrust relevance
+
+RAGTrust applies a similar principle to knowledge:
+
+```text
+Never trust knowledge merely because:
+
+it exists in the vector database
+it came from the knowledge graph
+it was retrieved at rank #1
+it has high embedding similarity
+it was previously used by another agent
+it appears authoritative
+```
+
+Instead:
+
+```text
+VERIFY
+   identity
+   integrity
+   provenance
+   authorization
+   trust
+   corroboration
+   contradiction
+```
+
+before context admission.
+
+---
+
+### [6] Sigstore — Artifact Signing and Verification
+
+**Sigstore Project.**  
+Software-signing and transparency infrastructure.
+
+Sigstore provides an important conceptual precedent for associating software artifacts with verifiable identity and integrity evidence.
+
+#### RAGTrust relevance
+
+RAGTrust applies an analogous concept to AI knowledge objects:
+
+```text
+Software Artifact
+       ↓
+signature
+       ↓
+verification
+
+
+Knowledge Object
+       ↓
+Knowledge Passport
+       ↓
+signature + provenance
+       ↓
+verification
+```
+
+RAGTrust is **not a Sigstore implementation** and does not claim protocol compatibility.
+
+---
+
+### [7] in-toto — Supply-Chain Attestations
+
+**in-toto Project.**  
+*A framework to secure the integrity of software supply chains.*
+
+in-toto provides a model for recording and verifying the steps through which an artifact passes.
+
+#### RAGTrust relevance
+
+A knowledge object may similarly pass through:
+
+```text
+Source Document
+      ↓
+Parser
+      ↓
+OCR
+      ↓
+Chunker
+      ↓
+Summarizer
+      ↓
+Entity Extractor
+      ↓
+Graph Builder
+      ↓
+Retriever
+```
+
+RAGTrust therefore preserves transformation lineage rather than trusting only the final chunk.
+
+---
+
+### [8] SLSA — Supply-Chain Levels for Software Artifacts
+
+**Supply-chain Levels for Software Artifacts (SLSA).**
+
+SLSA provides another important precedent for provenance, trusted build pipelines, and verifiable artifact production.
+
+#### RAGTrust relevance
+
+RAGTrust adapts the architectural idea to knowledge:
+
+```text
+Authenticated Source
+        ↓
+Attested Ingestion
+        ↓
+Attested Transformation
+        ↓
+Signed Knowledge Object
+        ↓
+Verified Retrieval
+```
+
+---
+
+## Research → RAGTrust Architecture Mapping
+
+| Research direction | RAGTrust subsystem |
+|---|---|
+| Knowledge poisoning | Poison Risk Engine |
+| Single-document targeted poisoning | SecureRank + corroboration |
+| Corpus corruption | Secure Ingestion |
+| Provenance verification | Knowledge Passport |
+| Supply-chain security | Knowledge Ledger |
+| Trust-weighted retrieval | SecureRank |
+| Contradiction detection | Knowledge Integrity Graph |
+| Source independence | Robust Aggregator |
+| GraphRAG poisoning | Graph Integrity Monitor |
+| Multi-hop inconsistency | Graph path validation |
+| Local graph repair | Graph repair layer |
+| Zero Trust | Per-object authorization |
+| Artifact signing | Passport signatures |
+| Transformation provenance | Provenance DAG |
+| Supply-chain attestations | Transformation attestations |
+| Persistent-memory poisoning | Passport-bearing memory |
+
+---
+
+## How the Research Fits Together
+
+The cited work exposes different pieces of the same larger security problem:
+
+```text
+PoisonedRAG
+     │
+     └── Knowledge corruption is an attack surface
+                    │
+                    ▼
+               ToxicRAG
+                    │
+     └── Very small poisoning footprints can matter
+                    │
+                    ▼
+               RAGShield
+                    │
+     └── Provenance and supply-chain defenses
+                    │
+                    ▼
+               HoG-GRAG
+                    │
+     └── Graph structure itself must be protected
+                    │
+                    ▼
+                 RAGTrust
+                    │
+     ├── Knowledge Passport
+     ├── Knowledge Ledger
+     ├── SecureRank
+     ├── Corroboration
+     ├── Knowledge Integrity Graph
+     ├── Graph Integrity Monitor
+     ├── Local Graph Repair
+     ├── Retrieval Authorization
+     └── Context Firewall
+```
+
+---
+
+## RAGTrust Research Positioning
+
+RAGTrust explores a broader systems-security question:
+
+> **What would RAG look like if enterprise knowledge were treated as a cryptographically identifiable, policy-controlled, provenance-carrying supply chain rather than an implicitly trusted collection of embeddings?**
+
+The resulting security model is:
+
+```text
+Semantic Relevance
+        +
+Knowledge Identity
+        +
+Cryptographic Integrity
+        +
+Source Provenance
+        +
+Transformation Lineage
+        +
+Retrieval Authorization
+        +
+Source Reputation
+        +
+Independent Corroboration
+        +
+Contradiction Analysis
+        +
+Poison Risk
+        +
+Graph Integrity
+        ↓
+Secure Context
+```
+
+---
+
+## Citation Disclaimer
+
+RAGTrust is an **independent open engineering reference implementation**.
+
+The papers and projects cited above provide research motivation and architectural context.
+
+Citation does **not** imply:
+
+- affiliation with the authors;
+- endorsement by the cited organizations;
+- reproduction of proprietary systems;
+- implementation equivalence;
+- compatibility certification;
+- that RAGTrust is the official implementation of any cited paper.
+
+Where RAGTrust combines provenance, authorization, trust-aware retrieval, knowledge integrity graphs, graph repair, cryptographic passports, and context admission into one architecture, that combination represents the design of this project rather than a claim that any single cited work implements the complete architecture.
+
+---
+
+## References
+
+**[1]** Haozhe Lu, Jiaqi Li, Xinyuan Zhu, and Xiang Li.  
+*ToxicRAG: Compromising Retrieval-Augmented Generation Systems via Single-Shot Knowledge Poisoning Attacks.*  
+arXiv:2609.11082, 2026.
+
+**[2]** KrishnaSaiReddy Patil.  
+*RAGShield: Provenance-Verified Defense-in-Depth Against Knowledge Base Poisoning in Government Retrieval-Augmented Generation Systems.*  
+arXiv:2604.00387, 2026.
+
+**[3]** Havva Alizadeh Noughabi, Fattane Zarrinkalam, and Ali Dehghantanha.  
+*Defense Against Knowledge Poisoning Attack on GraphRAG.*  
+Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics, Volume 2: Short Papers, pp. 555–563, 2026.  
+DOI: `10.18653/v1/2026.acl-short.47`
+
+**[4]** Wei Zou, Runpeng Geng, Binghui Wang, and Jinyuan Jia.  
+*PoisonedRAG: Knowledge Corruption Attacks to Retrieval-Augmented Generation of Large Language Models.*  
+34th USENIX Security Symposium, pp. 3827–3844, 2025.
+
+**[5]** National Institute of Standards and Technology.  
+*Zero Trust Architecture.*  
+NIST Special Publication 800-207.
+
+**[6]** Sigstore Project.  
+*Sigstore Documentation — Software Signing and Verification.*
+
+**[7]** in-toto Project.  
+*in-toto: A Framework to Secure the Integrity of Software Supply Chains.*
+
+**[8]** SLSA.  
+*Supply-chain Levels for Software Artifacts.*
+
+---
+
+## Recommended Citation for RAGTrust
+
+If you use or discuss this repository in engineering work, presentations, research prototypes, or architecture discussions:
+
+```bibtex
+@software{ragtrust2026,
+  title  = {RAGTrust: Zero-Trust Provenance and Knowledge Integrity Runtime},
+  year   = {2026},
+  type   = {AI Security Reference Implementation},
+  note   = {Zero-trust knowledge provenance, integrity, secure retrieval,
+            robust aggregation, GraphRAG security, and knowledge-supply-chain architecture}
+}
+```
+
+---
+
+## Final Research Principle
+
+```text
+RELEVANCE IS NOT TRUST.
+RETRIEVAL IS NOT AUTHORIZATION.
+A SIGNATURE IS NOT TRUTH.
+POPULARITY IS NOT CORROBORATION.
+A GRAPH EDGE IS NOT A VERIFIED FACT.
+
+Knowledge entering an AI system should carry
+identity, integrity, provenance, policy and evidence.
+```
